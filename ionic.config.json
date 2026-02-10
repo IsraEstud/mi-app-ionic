@@ -1,0 +1,7 @@
+{
+  "name": "mi-app-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
