@@ -66,7 +66,7 @@ src/
 ├── router/             # Definición de rutas y navegación
 ├── services/           # Lógica de negocio y llamadas a Kinde/API
 ├── stores/             # Estado global (Pinia)
-├── theme/              # Variables de Ionic y Tailwind/HeroUI
+├── theme/              # Variables de Ionic
 ├── types/              # Interfaces y tipos de TypeScript
 ├── utils/              # Funciones de ayuda (formateo de fechas, etc.)
 └── views/              # Páginas de Ionic (Home, Login, Profile)
@@ -80,10 +80,10 @@ La app se conecta a una API personalizada que debe proporcionar los siguientes e
 
 | Método | Endpoint             | Descripción             |
 | ------ | -------------------- | ----------------------- |
-| POST   | `/api/auth/register` | Registrar nuevo usuario |
-| POST   | `/api/auth/login`    | Iniciar sesión          |
-| POST   | `/api/auth/logout`   | Cerrar sesión           |
-| GET    | `/api/auth/me`       | Obtener usuario actual  |
+| POST   | `/api/register` | Registrar nuevo usuario |
+| POST   | `/api/login`    | Iniciar sesión          |
+| POST   | `/api/logout`   | Cerrar sesión           |
+| GET    | `/api/me`       | Obtener usuario actual (Por probar)  |
 
 ### Flujo de Autenticación
 
