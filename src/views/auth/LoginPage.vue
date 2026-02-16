@@ -10,14 +10,14 @@
       <!-- Formulario -->
       <form @submit.prevent="handleLogin" class="login-form">
         <base-input
-          v-model="email"
-          label="Email"
-          type="email"
-          placeholder="ejemplo@correo.com"
-          :icon="mailOutline"
-          autocomplete="email"
-          :error="emailError"
-          @blur="validateEmailField"
+          v-model="username"
+          label="Usuario"
+          type="text"
+          placeholder="nombredeusuario"
+          :icon="personOutline"
+          autocomplete="username"
+          :error="usernameError"
+          @blur="validateUsernameField"
           :disabled="loading"
         />
 
@@ -80,7 +80,7 @@
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { IonButton, IonSpinner, } from "@ionic/vue";
-import { mailOutline, lockClosedOutline } from "ionicons/icons";
+import { personOutline, lockClosedOutline } from "ionicons/icons";
 
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import BrandHeader from "@/components/common/BrandHeader.vue";
@@ -95,20 +95,20 @@ import { useFormValidators } from "@/composables/useFormValidators";
 const router = useRouter();
 const authStore = useAuthStore();
 const { showToast } = useToast();
-const { validateEmail, validatePassword } = useFormValidators();
+const { validateUsername, validatePassword } = useFormValidators();
 
 // State
-const email = ref("");
+const username = ref("");
 const password = ref("");
 const loading = ref(false);
 
-const emailError = ref("");
+const usernameError = ref("");
 const passwordError = ref("");
 
 // Validation
-const validateEmailField = () => {
-  const error = validateEmail(email.value);
-  emailError.value = error || "";
+const validateUsernameField = () => {
+  const error = validateUsername(username.value);
+  usernameError.value = error || "";
   return !error;
 };
 
@@ -120,16 +120,16 @@ const validatePasswordField = () => {
 
 const isFormValid = computed(() => {
   return (
-    email.value.length > 0 &&
+    username.value.length > 0 &&
     password.value.length > 0 &&
-    !emailError.value &&
+    !usernameError.value &&
     !passwordError.value
   );
 });
 
 // Logic
 const handleLogin = async () => {
-  if (!validateEmailField() || !validatePasswordField()) {
+  if (!validateUsernameField() || !validatePasswordField()) {
     return;
   }
 
@@ -137,7 +137,7 @@ const handleLogin = async () => {
 
   try {
     const data = await AuthService.login({
-      email: email.value,
+      username: username.value,
       password: password.value,
     });
 

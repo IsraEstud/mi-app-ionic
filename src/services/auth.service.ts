@@ -4,7 +4,7 @@ export const AuthService = {
   // Método para registrar usuarios
   async register(userData: any) {
     try {
-      const response = await axiosRiksiri.post("auth/register", userData);
+      const response = await axiosRiksiri.post("register", userData);
       return response.data;
     } catch (error: any) {
       throw error.response?.data?.message || "Error al registrarse";
@@ -12,9 +12,9 @@ export const AuthService = {
   },
 
   // Método para iniciar sesión
-  async login(credentials: { email: string; password: string }) {
+  async login(credentials: { username: string; password: string }) {
     try {
-      const response = await axiosRiksiri.post("auth/login", credentials);
+      const response = await axiosRiksiri.post("login", credentials);
       // Guardamos el token que viene de la API
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);

@@ -25,10 +25,17 @@ export const useFormValidators = () => {
     return null;
   };
 
+  const validateUsername = (username: string): string | null => {
+    if (!username.trim()) return "El usuario es requerido";
+    if (username.trim().length < 3) return "Mínimo 3 caracteres";
+    return null;
+  };
+
   return {
     validateEmail,
     validatePassword,
     validateName,
     validateConfirmPassword,
+    validateUsername,
   };
 };
