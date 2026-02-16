@@ -54,29 +54,36 @@ npm run preview
 
 ```
 src/
-├── assets/              # Recursos estáticos
-├── components/          # Componentes reutilizables
-├── views/               # Páginas/Vistas
-│   ├── LoginPage.vue
-│   ├── RegisterPage.vue
-│   └── HomePage.vue
-├── router/              # Configuración de rutas
-├── services/            # Servicios (API, Auth)
-├── stores/              # Estado global (Pinia/Composables)
-├── theme/               # Estilos y variables de Ionic
-└── App.vue              # Componente raíz
+├── api/                # Axios instances y configuración de interceptores
+├── assets/             # Imágenes, fuentes, iconos
+├── components/         # Componentes UI atómicos (Botones, Inputs)
+│   ├── common/         # Componentes globales
+│   └── layout/         # Header, Footer, SideMenu (Específicos de layout)
+├── composables/        # Lógica reutilizable (useAuth, useToast, etc.)
+├── constants/          # Enums, IDs de Kinde, configuraciones fijas
+├── guards/             # Route guards para proteger vistas (AuthGuard)
+├── layouts/            # Wrappers de página (MainLayout.vue, AuthLayout.vue)
+├── router/             # Definición de rutas y navegación
+├── services/           # Lógica de negocio y llamadas a Kinde/API
+├── stores/             # Estado global (Pinia)
+├── theme/              # Variables de Ionic y Tailwind/HeroUI
+├── types/              # Interfaces y tipos de TypeScript
+├── utils/              # Funciones de ayuda (formateo de fechas, etc.)
+└── views/              # Páginas de Ionic (Home, Login, Profile)
+    ├── auth/           # Login, Register
+    └── dashboard/      # Vistas protegidas
 ```
 
 ## Autenticación
 
 La app se conecta a una API personalizada que debe proporcionar los siguientes endpoints:
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Registrar nuevo usuario |
-| POST | `/api/auth/login` | Iniciar sesión |
-| POST | `/api/auth/logout` | Cerrar sesión |
-| GET | `/api/auth/me` | Obtener usuario actual |
+| Método | Endpoint             | Descripción             |
+| ------ | -------------------- | ----------------------- |
+| POST   | `/api/auth/register` | Registrar nuevo usuario |
+| POST   | `/api/auth/login`    | Iniciar sesión          |
+| POST   | `/api/auth/logout`   | Cerrar sesión           |
+| GET    | `/api/auth/me`       | Obtener usuario actual  |
 
 ### Flujo de Autenticación
 
