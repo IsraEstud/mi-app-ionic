@@ -22,7 +22,20 @@
     <!-- Formulario -->
     <div class="register-form-container">
       <form @submit.prevent="handleRegister" class="register-form">
-        <!-- Nombre -->
+        <!-- Usuario -->
+        <base-input
+          v-model="form.usuario"
+          label="Usuario"
+          type="text"
+          placeholder="juanperez"
+          :icon="personOutline"
+          autocomplete="username"
+          :error="usuarioError"
+          @blur="validateUsuarioField"
+          :disabled="loading"
+        />
+
+        <!-- Nombre Completo -->
         <base-input
           v-model="form.name"
           label="Nombre Completo"
@@ -175,11 +188,12 @@ import { useFormValidators } from "@/composables/useFormValidators";
 // Utils
 const router = useRouter();
 const { showToast } = useToast();
-const { validateEmail, validateName, validateConfirmPassword } =
+const { validateEmail, validateName, validateConfirmPassword, validateUsername } =
   useFormValidators();
 
 // State
 const form = ref({
+  usuario: "",
   name: "",
   email: "",
   password: "",
@@ -189,6 +203,7 @@ const acceptedTerms = ref(false);
 const loading = ref(false);
 
 // Errors
+const usuarioError = ref("");
 const nameError = ref("");
 const emailError = ref("");
 const passwordError = ref("");
@@ -203,6 +218,12 @@ const passwordStrength = ref({
 });
 
 // Validators Wrappers
+const validateUsuarioField = () => {
+  const error = validateUsername(form.value.usuario);
+  usuarioError.value = error || "";
+  return !error;
+};
+
 const validateNameField = () => {
   const error = validateName(form.value.name);
   nameError.value = error || "";
@@ -251,11 +272,13 @@ const validateConfirmPasswordField = () => {
 
 const isFormValid = computed(() => {
   return (
+    form.value.usuario.length > 0 &&
     form.value.name.length > 0 &&
     form.value.email.length > 0 &&
     form.value.password.length > 0 &&
     confirmPassword.value.length > 0 &&
     acceptedTerms.value &&
+    !usuarioError.value &&
     !nameError.value &&
     !emailError.value &&
     !passwordError.value &&
@@ -304,6 +327,7 @@ const showPrivacy = async () => {
 };
 
 const handleRegister = async () => {
+  const isUsuarioValid = validateUsuarioField();
   const isNameValid = validateNameField();
   const isEmailValid = validateEmailField();
   const isPasswordValid = validatePasswordField();
@@ -316,7 +340,7 @@ const handleRegister = async () => {
     termsError.value = "";
   }
 
-  if (!isNameValid || !isEmailValid || !isPasswordValid || !isConfirmValid) {
+  if (!isUsuarioValid || !isNameValid || !isEmailValid || !isPasswordValid || !isConfirmValid) {
     return;
   }
 
@@ -330,7 +354,7 @@ const handleRegister = async () => {
       "success"
     );
 
-    form.value = { name: "", email: "", password: "" };
+    form.value = { usuario: "", name: "", email: "", password: "" };
     confirmPassword.value = "";
     acceptedTerms.value = false;
 

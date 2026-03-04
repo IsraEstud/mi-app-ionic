@@ -28,6 +28,8 @@ export const useFormValidators = () => {
   const validateUsername = (username: string): string | null => {
     if (!username.trim()) return "El usuario es requerido";
     if (username.trim().length < 3) return "Mínimo 3 caracteres";
+    if (/[A-Z]/.test(username)) return "No puede contener mayúsculas";
+    if (/\s/.test(username)) return "No puede contener espacios";
     return null;
   };
 

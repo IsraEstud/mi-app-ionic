@@ -1,8 +1,16 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+export interface User {
+  id?: number;
+  name: string;
+  email?: string;
+  usuario: string;
+  foto?: string;
+}
+
 export const useAuthStore = defineStore("auth", () => {
-  const user = ref(null);
+  const user = ref<User | null>(null);
   const isAuthenticated = ref(!!localStorage.getItem("token"));
 
   function setToken(token: string) {
