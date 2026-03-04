@@ -141,7 +141,11 @@ const handleLogin = async () => {
       password: password.value,
     });
 
-    authStore.setToken(data.token);
+    authStore.setAuth({
+      user: data.user,
+      token: data.token,
+      menu: data.menu || [],
+    });
     await showToast("¡Inicio de sesión exitoso!", "success");
     router.push("/dashboard");
   } catch (error: any) {

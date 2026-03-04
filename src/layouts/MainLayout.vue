@@ -11,7 +11,7 @@
       <ion-content>
         <!-- Perfil -->
         <div class="user-profile">
-          <div class="avatar-container">
+          <div class="avatar-container" @click="changeProfilePhoto">
             <ion-avatar class="user-avatar">
               <img
                 v-if="userProfile?.foto"
@@ -24,10 +24,13 @@
                 class="default-avatar"
               ></ion-icon>
             </ion-avatar>
+            <div class="camera-overlay">
+              <ion-icon :icon="cameraOutline"></ion-icon>
+            </div>
           </div>
           <div class="user-info">
-            <h3>{{ userProfile?.name || 'Usuario' }}</h3>
-            <p>@{{ userProfile?.usuario || 'usuario' }}</p>
+            <h3>{{ userProfile?.usuario || 'Usuario' }}</h3>
+            <p>{{ userProfile?.email || '' }}</p>
           </div>
         </div>
 
@@ -104,9 +107,11 @@ import {
   personCircleOutline,
   homeOutline,
   logOutOutline,
+  cameraOutline,
 } from "ionicons/icons";
 import { useAuthStore } from "@/stores/auth";
 import { AuthService } from "@/services/auth.service";
+import { useCamera } from "@/composables/useCamera";
 
 defineProps<{
   pageTitle?: string;
@@ -114,8 +119,16 @@ defineProps<{
 
 const router = useRouter();
 const authStore = useAuthStore();
+const { takePicture, isLoading } = useCamera();
 
 const userProfile = computed(() => authStore.user);
+
+const changeProfilePhoto = async () => {
+  const photoPath = await takePicture();
+  if (photoPath && authStore.user) {
+    authStore.setUser({ ...authStore.user, foto: photoPath });
+  }
+};
 
 const handleLogout = () => {
   AuthService.logout();
@@ -135,7 +148,34 @@ const handleLogout = () => {
 }
 
 .avatar-container {
+  position: relative;
   flex-shrink: 0;
+  cursor: pointer;
+}
+
+.avatar-container:hover .camera-overlay {
+  opacity: 1;
+}
+
+.camera-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.camera-overlay ion-icon {
+  width: 14px;
+  height: 14px;
+  color: white;
 }
 
 .user-avatar {
