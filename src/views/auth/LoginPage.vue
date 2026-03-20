@@ -145,9 +145,15 @@ const handleLogin = async () => {
       user: data.user,
       token: data.token,
       menu: data.menu || [],
+      home: data.home,
     });
     await showToast("¡Inicio de sesión exitoso!", "success");
-    router.push("/dashboard");
+    // Navegar a la sección de inicio si la API la retorna
+    if (data.home?.internal_name) {
+      router.push(`/seccion/${data.home.internal_name}`);
+    } else {
+      router.push("/dashboard");
+    }
   } catch (error: any) {
     const errorMessage =
       error?.response?.data?.message ||

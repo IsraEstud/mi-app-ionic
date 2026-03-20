@@ -6,6 +6,7 @@ import { authGuard } from "@/guards/auth.guard";
 const Login = () => import("@/views/auth/LoginPage.vue");
 const Register = () => import("@/views/auth/RegisterPage.vue");
 const Dashboard = () => import("@/views/dashboard/DashboardPage.vue");
+const Seccion = () => import("@/views/dashboard/SeccionPage.vue");
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -28,6 +29,12 @@ const routes: Array<RouteRecordRaw> = [
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/seccion/:slug",
+    name: "Seccion",
+    component: Seccion,
     meta: { requiresAuth: true },
   },
 ];
